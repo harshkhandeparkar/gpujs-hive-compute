@@ -1,5 +1,6 @@
 const { hiveRun } = require('../dist/index').default;
 const { GPU } = require('gpu.js');
+const { question } = require('readline-sync');
 
 hiveRun(
   new GPU(),
@@ -9,6 +10,7 @@ hiveRun(
   {
     output: [800]
   },
+  numHelpers => question(`${numHelpers} helpers joined, run the kernel now (y/n)?: `).toLowerCase() == `y`,
   output => {
     console.log('Final Output', output);
   }
