@@ -1,4 +1,4 @@
-const { hiveRun } = require('../dist/index').default;
+const { hiveRun } = require('../dist/index');
 const { GPU } = require('gpu.js');
 const { question } = require('readline-sync');
 

@@ -1,8 +1,8 @@
 const { GPU } = require('gpu.js');
 const { question } = require('readline-sync');
-const { help } = require('../dist/index').default;
+const { hiveHelp } = require('../dist/index');
 
-help(
+hiveHelp(
   new GPU(),
   question('URL?: ')
 )
