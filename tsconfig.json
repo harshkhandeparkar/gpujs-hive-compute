@@ -9,7 +9,7 @@
     "allowJs": true
   },
   "include": [
-    "./src/leader.ts",
+    "./src/index.ts",
     "./src/runHelper.ts"
   ]
 }
