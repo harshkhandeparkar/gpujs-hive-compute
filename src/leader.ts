@@ -11,11 +11,13 @@ import { TELL_ACTIONS } from './util/constants';
 
 /**
  * 
+ * @param gpu Instance of a GPU.js `GPU` class.
  * @param func The kernel function to be run
  * @param kernelOptions Kernel options/settings (currently only supports 1-D)
  * @param input input for the kernel
  */
 export default function hiveRun(
+  gpu: GPU,
   func: Function,
   kernelOptions: IGPUKernelSettings,
   cb: (output: any[]) => void,
@@ -31,7 +33,6 @@ export default function hiveRun(
   const server = new WS.Server({ port: wsPort }); // Initialize the WebSocket server
   console.log(`URL: ws://${address()}:${wsPort}`);
 
-  const gpu = new GPU(); // Instantiate the GPU Object
   const helperList: WS[] = []; // List of all helper websockets
   let acceptingConnections = true;
 

@@ -7,11 +7,11 @@ import { onAsk, tell, onTell } from './util/comm';
 
 /**
  * 
+ * @param gpu Instance of GPU.js `GPU` class
  * @param url WebSocket URL e.g: ws://localhost:4532
  */
-export default function help(url: string) {
+export default function help(gpu: GPU, url: string) {
   const ws = new WS(url);
-  const gpu = new GPU();
   let k: IKernelRunShortcut; // build kernel will be stored here
   
   ws.on('open', () => {
