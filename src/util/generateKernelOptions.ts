@@ -18,7 +18,8 @@ export default function generateKernelOptions(
         output: [largestDivident + 1 * Math.sign(leftOver)], // add 1 if something is left over
         constants: {
           ...initialOptions.constants,
-          hive_offset_x
+          hive_offset_x,
+          hive_output_x: initialOptions.output[0]
         }
       })
 
