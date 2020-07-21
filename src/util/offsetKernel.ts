@@ -5,5 +5,9 @@ export default function offsetKernel(kernelFunc: Function | string): string {
     0, // Insert an element instead of deleting
     `this.thread.x = this.thread.x + this.constants.hive_offset_x`
   )
-  return kernelFuncStrArr.join('\n');
+
+  return kernelFuncStrArr.join('\n') // back to string
+    .replace(/this\.output\.x/g, 'this.constants.hive_output_x') // Individual kernel output != overall hive output
+    .replace(/this\.output\.y/g, 'this.constants.hive_output_y')
+    .replace(/this\.output\.z/g, 'this.constants.hive_output_z')
 }
