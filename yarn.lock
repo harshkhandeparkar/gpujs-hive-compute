@@ -343,7 +343,7 @@ gl-wiretap@^0.6.2:
   resolved "https://registry.yarnpkg.com/gl-wiretap/-/gl-wiretap-0.6.2.tgz#e4aa19622831088fbaa7e5a18d01768f7a3fb07c"
   integrity sha512-fxy1XGiPkfzK+T3XKDbY7yaqMBmozCGvAFyTwaZA3imeZH83w7Hr3r3bYlMRWIyzMI/lDUvUMM/92LE2OwqFyQ==
 
-gl@^4.4.1:
+gl@^4.5.2:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/gl/-/gl-4.5.2.tgz#89151aaaf46251c2a68b99b2ab347d90a8538824"
   integrity sha512-EC4Gm4+yCpDrRaHeiRn7yBkl5EQwhTuwwCx1rVk423dS4RLLkoKfSRu2aXY5Cw5dduhv/f14W/kmWBHKVXYgYw==
@@ -382,13 +382,13 @@ gpu-mock.js@^1.1.1:
   dependencies:
     gpu.js "^2.9.3"
 
-gpu.js@^2.9.3, gpu.js@^2.9.4:
-  version "2.9.4"
-  resolved "https://registry.yarnpkg.com/gpu.js/-/gpu.js-2.9.4.tgz#33babbb2670fa469343e2b04afba84b4d81d1640"
-  integrity sha512-1N+gN83Y3ZuiazTvsXsjdXTzoT7C8tUWdaiGPn6zDMupJx54gRFgK/z67jYW45o3165t9qKUsrQja8sx3XlDCA==
+gpu.js@^2.9.3, gpu.js@^2.9.5:
+  version "2.9.5"
+  resolved "https://registry.yarnpkg.com/gpu.js/-/gpu.js-2.9.5.tgz#a7fe82df65f2e925971e57f849dfc01aa1d71dff"
+  integrity sha512-I8wWINzCKD2z+AQitSWFj+N2mkQCBJ/VbQJg7PFuLkjlHy82Z+wAPN4yMXz11WdDCg6P1D90QKkmkLiWLzCoLQ==
   dependencies:
     acorn "^7.1.1"
-    gl "^4.4.1"
+    gl "^4.5.2"
     gl-wiretap "^0.6.2"
     gpu-mock.js "^1.1.1"
 
@@ -842,9 +842,9 @@ signal-exit@^3.0.0:
   integrity sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA==
 
 simple-concat@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/simple-concat/-/simple-concat-1.0.0.tgz#7344cbb8b6e26fb27d66b2fc86f9f6d5997521c6"
-  integrity sha1-c0TLuLbib7J9ZrL8hvn21Zl1IcY=
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/simple-concat/-/simple-concat-1.0.1.tgz#f46976082ba35c2263f1c8ab5edfe26c41c9552f"
+  integrity sha512-cSFtAPtRhljv69IK0hTVZQ+OfE9nePi/rtJmw5UjHeVyVroEqJXP1sFztKUy1qU+xvz3u/sfYJLa947b7nAN2Q==
 
 simple-get@^3.0.3:
   version "3.1.0"
