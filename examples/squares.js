@@ -1,6 +1,6 @@
-const { runKernel } = require('../dist/index').default;
+const { hiveRun } = require('../dist/index').default;
 
-runKernel(
+hiveRun(
   function() {
     return this.thread.x ** 2;
   },
