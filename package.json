@@ -7,7 +7,7 @@
     "build": "tsc",
     "dev": "tsc -w",
     "helper": "node dist/runHelper.js",
-    "npm-publish": "yarn build && git add dist && yarn publish"
+    "npm-publish": "yarn build && yarn publish"
   },
   "dependencies": {
     "gpu.js": "^2.9.4",
