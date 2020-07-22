@@ -58,7 +58,7 @@ export function hiveRun(
           console.log('Building + Running on hive');
 
           acceptingConnections = false;
-          runKernel(gpu, kernelFunc, kernelOptions, inputsLength, input, helperList, cb)
+          runKernel(gpu, kernelFunc, kernelOptions, inputsLength, input, helperList, cb); 
         }
 
         onDisconnect(ws, () => {
