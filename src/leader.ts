@@ -4,6 +4,7 @@ import { address } from 'ip';
 
 import runKernel from './util/runKernel';
 import offsetKernel from './util/offsetKernel';
+import standardizeOutput from './util/standardizeOutput';
 import { onConnect, onDisconnect, tell } from './util/comm';
 import { wsPort } from './config.json';
 import { TELL_ACTIONS } from './util/constants';
@@ -25,12 +26,11 @@ export function hiveRun(
   cb: (output: any[]) => void,
   input: any[] = []
 ): void {
+  const output = standardizeOutput(kernelOptions.output);
+  kernelOptions.output = output.finalOutput;
+
   // Only 1-D output is supported as of now.
-  if (
-    (typeof kernelOptions.output == 'object' && (kernelOptions.output as IKernelXYZ).y) // if 2-D or 3-D
-    ||
-    (kernelOptions.output as number[]).length > 1 // if 2-D or 3-D
-  ) throw 'Only 1-D output is supported as of now';
+  if (output.dimensions > 1) throw 'Only 1-D output is supported as of now';
 
   const server = new WS.Server({ port: wsPort }); // Initialize the WebSocket server
   console.log(`URL: ws://${address()}:${wsPort}`);

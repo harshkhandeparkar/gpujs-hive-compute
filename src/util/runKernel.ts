@@ -4,7 +4,7 @@ import WS from 'ws';
 import { TELL_DATA } from './types';
 import { ASK_ACTIONS, TELL_ACTIONS } from './constants';
 import { ask, onTell, } from './comm';
-import generateKernelOptions from './generateKernelOptions';
+import generate1DKernelOptions from './generate1DKernelOptions';
 
 export default function runKernel(  
   gpu: GPU,
@@ -15,7 +15,7 @@ export default function runKernel(
   helperList: WS[],
   cb: (finalOutput: number[]) => void
 ) {
-  const kernelOpts = generateKernelOptions(kernelOptions, helperList.length);
+  const kernelOpts = generate1DKernelOptions(kernelOptions, helperList.length);
 
   helperList.forEach((helper: WS, i) => { // Build kernel on each helper
     ask(helper, {
