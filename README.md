@@ -93,6 +93,7 @@ Parameters:
 The following features of GPU.js are not supported as of now:
 - **2-D and 3-D kernel outputs**: Will be supported soon
 - **Graphical Output**: There is no straightforward way of doing this. (Basically impossible)
+- [**Pipelining**](https://github.com/gpujs/gpu.js#pipelining): The task is distributed among multiple GPUs so there is no single texture that can be pipelined.
 - **Not All Kernel Constants are available**: Kernel constants are supported but the following names are reserved by the library: `hive_offset_x`, `hive_offset_y`, `hive_offset_z`, `hive_output_x`, `hive_output_y` and `hive_output_z`.
 
 
