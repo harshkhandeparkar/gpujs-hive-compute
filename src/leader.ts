@@ -17,7 +17,7 @@ import { TELL_ACTIONS } from './util/constants';
  * @param cb Callback that is fired when the run is complete
  * @param input input for the kernel
  */
-export default function hiveRun(
+export function hiveRun(
   gpu: GPU,
   func: Function,
   kernelOptions: IGPUKernelSettings,

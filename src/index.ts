@@ -1,7 +1,2 @@
-import hiveRun from './leader';
-import hiveHelp from './helper';
-
-module.exports = {
-  hiveRun,
-  hiveHelp
-}
+export { hiveRun } from './leader';
+export { hiveHelp } from './helper';

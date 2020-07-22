@@ -10,7 +10,7 @@ import { onAsk, tell, onTell } from './util/comm';
  * @param gpu Instance of GPU.js `GPU` class
  * @param url WebSocket URL e.g: ws://localhost:4532
  */
-export default function hiveHelp(gpu: GPU, url: string) {
+export function hiveHelp(gpu: GPU, url: string) {
   const ws = new WS(url);
   let k: IKernelRunShortcut; // build kernel will be stored here
   
