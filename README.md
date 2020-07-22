@@ -89,6 +89,13 @@ Parameters:
 1. `gpu` (GPU): Instance of a GPU.js [`GPU`](https://github.com/gpujs/gpu.js#gpu-settings) object.
 2. `url` (string): The [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) URL used by the Leader and Helper to communicate. The URL will be logged to the console by the leader. e.g: `ws://192.168.0.10:8782`.
 
+### Caveats
+The following features of GPU.js are not supported as of now:
+- **2-D and 3-D kernel outputs**: Will be supported soon
+- **Graphical Output**: There is no straightforward way of doing this. (Basically impossible)
+- **Not All Kernel Constants are available**: Kernel constants are supported but the following names are reserved by the library: `hive_offset_x`, `hive_offset_y`, `hive_offset_z`, `hive_output_x`, `hive_output_y` and `hive_output_z`.
+
+
 ****
 #### Thank You!
 > Open Source by Harsh Khandeparkar
