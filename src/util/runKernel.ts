@@ -6,6 +6,7 @@ import { ASK_ACTIONS, TELL_ACTIONS } from './constants';
 import { ask, onTell, } from './comm';
 import offsetKernel from './offsetKernel';
 import generate1DKernelOptions from './generate1DKernelOptions';
+import merge1DOutput from './merge1DOutput';
 
 export default function runKernel(  
   gpu: GPU,
@@ -78,11 +79,7 @@ export default function runKernel(
 
       if (kernelRunHelpers === helperList.length) {
         console.log(`All kernels run, generating final output`);
-        let finalOutput: number[] = [];
-        outputs = outputs.sort((output1, output2) => output1.index - output2.index); // sort in order
-
-        outputs.forEach(output => finalOutput = finalOutput.concat(output.out));
-        cb(finalOutput);
+        cb(merge1DOutput(outputs));
       }
     })
   })
