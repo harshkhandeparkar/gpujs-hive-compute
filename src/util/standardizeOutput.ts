@@ -1,9 +1,9 @@
 import { IKernelXYZ } from 'gpu.js'
 
 export default function standardizeOutput(output: IKernelXYZ | number[]) {
-  let finalOutput: number[];
+  let finalOutput: any;
 
-  if (typeof output === 'object') {
+  if (Object.getOwnPropertyNames(output).includes('x')) {
     output = output as IKernelXYZ;
     // Convert object to array
     finalOutput = [];
