@@ -4,11 +4,12 @@ import WS from 'ws';
 import { TELL_DATA } from './types';
 import { ASK_ACTIONS, TELL_ACTIONS } from './constants';
 import { ask, onTell, } from './comm';
+import offsetKernel from './offsetKernel';
 import generate1DKernelOptions from './generate1DKernelOptions';
 
 export default function runKernel(  
   gpu: GPU,
-  kernelFunc: Function | string,
+  kernelFunc: Function,
   kernelOptions: any,
   inputsLength: number,
   inputs: number[],
@@ -16,6 +17,7 @@ export default function runKernel(
   cb: (finalOutput: number[]) => void
 ) {
   const kernelOpts = generate1DKernelOptions(kernelOptions, helperList.length);
+  kernelFunc = offsetKernel(kernelFunc);
 
   helperList.forEach((helper: WS, i) => { // Build kernel on each helper
     ask(helper, {

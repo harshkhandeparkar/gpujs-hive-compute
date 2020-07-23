@@ -3,7 +3,6 @@ import { GPU, IGPUKernelSettings, IKernelXYZ } from 'gpu.js';
 import { address } from 'ip';
 
 import runKernel from './util/runKernel';
-import offsetKernel from './util/offsetKernel';
 import standardizeOutput from './util/standardizeOutput';
 import { onConnect, onDisconnect, tell } from './util/comm';
 import { wsPort } from './config.json';
@@ -38,7 +37,6 @@ export function hiveRun(
   const helperList: WS[] = []; // List of all helper websockets
   let acceptingConnections = true;
 
-  const kernelFunc = offsetKernel(func);
   const inputsLength = func.length;
 
   server.on('connection', (ws: WS) => {
@@ -58,7 +56,7 @@ export function hiveRun(
           console.log('Building + Running on hive');
 
           acceptingConnections = false;
-          runKernel(gpu, kernelFunc, kernelOptions, inputsLength, input, helperList, cb); 
+          runKernel(gpu, func, kernelOptions, inputsLength, input, helperList, cb); 
         }
 
         onDisconnect(ws, () => {
