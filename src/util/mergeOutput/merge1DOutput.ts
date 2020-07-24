@@ -1,6 +1,8 @@
+export type Output1D = number[];
+
 export default function merge1DOutput(
   outputs: {
-    out: number[],
+    out: Output1D,
     index: number
   }[]
 ) {

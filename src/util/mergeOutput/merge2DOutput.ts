@@ -1,0 +1,1 @@
+export type Output2D = number[][];

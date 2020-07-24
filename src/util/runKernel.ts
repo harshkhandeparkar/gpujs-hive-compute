@@ -5,19 +5,20 @@ import { TELL_DATA } from './types';
 import { ASK_ACTIONS, TELL_ACTIONS } from './constants';
 import { ask, onTell, } from './comm';
 import offsetKernel from './offsetKernel';
-import generate1DKernelOptions from './generate1DKernelOptions';
-import merge1DOutput from './merge1DOutput';
+import generateOptions from './generateOptions/generateOptions';
+import mergeOutput, { Output1D, Output2D } from './mergeOutput/mergeOutput';
 
 export default function runKernel(  
   gpu: GPU,
   kernelFunc: Function,
   kernelOptions: any,
+  outputDimensions: number,
   inputsLength: number,
   inputs: number[],
   helperList: WS[],
   cb: (finalOutput: number[]) => void
 ) {
-  const kernelOpts = generate1DKernelOptions(kernelOptions, helperList.length);
+  const kernelOpts = generateOptions(kernelOptions, helperList.length, outputDimensions);
   kernelFunc = offsetKernel(kernelFunc);
 
   helperList.forEach((helper: WS, i) => { // Build kernel on each helper
@@ -33,12 +34,13 @@ export default function runKernel(
   console.log(`Building kernel locally.`);
   const k = gpu.createKernel(kernelFunc as KernelFunction, kernelOpts[0]);
 
-  let builtKernelHelpers = 0;
+  let builtKernelHelpers = 0; // Number of helpers that completed building the kernel
   let outputs: {
-    out: number[],
+    out: Output1D | Output2D,
     index: number
   }[] = [];
-  let kernelRunHelpers = 0;
+  let kernelRunHelpers = 0; // Number of helpers that completed running the kernel
+
   helperList.forEach((helper, helperId) => {
     onTell(helper, TELL_ACTIONS.KERNEL_BUILT, (data: TELL_DATA) => {
       console.log(`Kernel built on helper #${helperId}, running.`);
@@ -63,7 +65,7 @@ export default function runKernel(
         else out = k(...inputs);
 
         outputs.push({
-          out: Object.values(out as any[]),
+          out: out as (Output1D | Output2D),
           index: 0
         })
       }
@@ -73,13 +75,13 @@ export default function runKernel(
       console.log(`Kernel run on helper #${helperId}.`);
       kernelRunHelpers++;
       outputs.push({
-        out: Object.values(data.extras.output),
+        out: Array.from(data.extras.output) as (Output1D | Output2D),
         index: helperId + 1
       })
 
       if (kernelRunHelpers === helperList.length) {
         console.log(`All kernels run, generating final output`);
-        cb(merge1DOutput(outputs));
+        cb(mergeOutput(outputs, outputDimensions, kernelOpts));
       }
     })
   })
