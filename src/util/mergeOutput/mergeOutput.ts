@@ -7,7 +7,7 @@ export default function mergeOutput(
     index: number
   }[],
   outputDimensions: number,
-  options: any // To get the offsets
+  options: any[] // To get the offsets
 ) {
   switch (outputDimensions) {
     case 1:
