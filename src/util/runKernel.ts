@@ -61,8 +61,8 @@ export default function runKernel(
         console.log(`Running Kernel Locally`);
         let out: KernelOutput;
 
-        if (inputsLength > 0) out = k();
-        else out = k(...inputs);
+        if (inputsLength > 0) out = k(...inputs);
+        else out = k();
 
         outputs.push({
           out: out as (Output1D | Output2D),
