@@ -10,6 +10,7 @@ hiveRun(
   {
     output: [800]
   },
+  url => console.log(url),
   numHelpers => question(`${numHelpers} helpers joined, run the kernel now (y/n)?: `).toLowerCase() == `y`,
   output => {
     console.log('Final Output', output);
