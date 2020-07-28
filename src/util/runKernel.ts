@@ -75,7 +75,7 @@ export default function runKernel(
       console.log(`Kernel run on helper #${helperId}.`);
       kernelRunHelpers++;
       outputs.push({
-        out: Array.from(data.extras.output) as (Output1D | Output2D),
+        out: Object.values(data.extras.output) as (Output1D | Output2D),
         index: helperId + 1
       })
 
