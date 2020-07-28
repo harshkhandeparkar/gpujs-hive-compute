@@ -23,7 +23,7 @@ test(`Hive output and local output should match`, t => {
     },
     numHelpers => numHelpers >= 1,
     hiveOutput => {
-      t.deepEqual(localOutput, hiveOutput, '1D output matches')
+      t.deepEqual(hiveOutput, localOutput, '1D output matches')
       t.end();
     },
     [a]
