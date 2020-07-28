@@ -16,7 +16,7 @@ export default function runKernel(
   inputsLength: number,
   inputs: number[],
   helperList: WS[],
-  cb: (finalOutput: number[]) => void
+  cb: (finalOutput: KernelOutput) => void
 ) {
   const kernelOpts = generateOptions(kernelOptions, helperList.length, outputDimensions);
   kernelFunc = offsetKernel(kernelFunc);
@@ -58,7 +58,6 @@ export default function runKernel(
           })
         })
 
-        console.log(`Running Kernel Locally`);
         let out: KernelOutput;
 
         if (inputsLength > 0) out = k(...inputs);

@@ -1,5 +1,5 @@
 import WS from 'ws';
-import { GPU, IGPUKernelSettings, IKernelXYZ } from 'gpu.js';
+import { GPU, IGPUKernelSettings, KernelOutput } from 'gpu.js';
 import { address } from 'ip';
 
 import runKernel from './util/runKernel';
@@ -22,7 +22,7 @@ export function hiveRun(
   func: Function,
   kernelOptions: IGPUKernelSettings,
   doContinueOnHelperJoin: (numHelpers: number) => boolean,
-  cb: (output: any[]) => void,
+  cb: (output: KernelOutput) => void,
   input: any[] = []
 ): void {
   const output = standardizeOutput(kernelOptions.output);
