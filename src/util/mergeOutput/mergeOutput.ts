@@ -11,7 +11,7 @@ export default function mergeOutput(
 ) {
   switch (outputDimensions) {
     case 1:
-      return merge1DOutput(outputs as {out: Output1D, index: number}[]);
+      return merge1DOutput(outputs as { out: Output1D, index: number }[]);
   }
 }
 

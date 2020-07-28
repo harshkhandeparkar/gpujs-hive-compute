@@ -8,9 +8,7 @@ export default function merge1DOutput(
 ) {
   let finalOutput: number[] = [];
   outputs = outputs.sort((output1, output2) => output1.index - output2.index); // sort in order
-  console.log(outputs);
 
   outputs.forEach(output => finalOutput = finalOutput.concat(output.out));
-  console.log('f', finalOutput);
-  return finalOutput;
+  return Object.assign({}, finalOutput); // To match with the output type of gpu.js
 }
