@@ -34,7 +34,7 @@ export default function generate2DKernelOptions(
     }[] = [];
 
     generatedParts.forEach((part, i) => {
-      if ((newParts.length + generatedParts.length - i) < numHelpers) {
+      if ((newParts.length + generatedParts.length - i) < numHelpers + 1) { // +1 for the leader
         // This means that new parts are required and hence generate them
 
         if (part.size[0] < part.size[1]) { // split perpendicular to the longest side
