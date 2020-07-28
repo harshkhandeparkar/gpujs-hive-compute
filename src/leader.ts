@@ -21,6 +21,7 @@ export function hiveRun(
   gpu: GPU,
   func: Function,
   kernelOptions: IGPUKernelSettings,
+  onWaitingForHelpers: (url: string) => void,
   doContinueOnHelperJoin: (numHelpers: number) => boolean,
   cb: (output: KernelOutput) => void,
   input: any[] = []
@@ -32,7 +33,7 @@ export function hiveRun(
   if (output.dimensions > 1) throw 'Only 1-D output is supported as of now';
 
   const server = new WS.Server({ port: wsPort }); // Initialize the WebSocket server
-  console.log(`URL: ws://${address()}:${wsPort}`);
+  onWaitingForHelpers(`ws://${address()}:${wsPort}`);
 
   const helperList: WS[] = []; // List of all helper websockets
   let acceptingConnections = true;
