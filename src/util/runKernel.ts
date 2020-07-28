@@ -65,7 +65,7 @@ export default function runKernel(
         else out = k();
 
         outputs.push({
-          out: out as (Output1D | Output2D),
+          out: Object.values(out as Object) as (Output1D | Output2D),
           index: 0
         })
       }
