@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "test": "yarn build && TEST=true tape test/run.js | tap-spec",
+    "test": "yarn build && TEST=true tape test/*.js test/**/*.js | tap-spec",
     "npm-publish": "yarn test && yarn publish"
   },
   "dependencies": {
