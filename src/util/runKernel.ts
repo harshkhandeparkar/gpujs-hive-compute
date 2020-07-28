@@ -19,7 +19,7 @@ export default function runKernel(
   cb: (finalOutput: KernelOutput) => void
 ) {
   const kernelOpts = generateOptions(kernelOptions, helperList.length, outputDimensions);
-  kernelFunc = offsetKernel(kernelFunc);
+  kernelFunc = offsetKernel(kernelFunc, outputDimensions);
 
   helperList.forEach((helper: WS, i) => { // Build kernel on each helper
     ask(helper, {
