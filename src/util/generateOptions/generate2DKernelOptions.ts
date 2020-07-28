@@ -27,7 +27,7 @@ export default function generate2DKernelOptions(
     }
   ] // The split parts of the matrix
 
-  while (generatedParts.length < numHelpers) {
+  while (generatedParts.length < numHelpers + 1) { // +1 for the leader
     const newParts: {
       size: [number, number],
       offsets: [number, number]
