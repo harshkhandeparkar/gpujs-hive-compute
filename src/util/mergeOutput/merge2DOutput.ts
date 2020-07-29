@@ -7,9 +7,28 @@ export default function merge2DOutput(
   }[],
   options: any[] // To get the offsets
 ) {
-  let finalOutput: number[] = [];
-  outputs = outputs.sort((output1, output2) => output1.index - output2.index); // sort in order
+  const finalSize = [options[0].constants.hive_output_x, options[0].constants.hive_output_y];
+  let finalOutput: number[][] = new Array(
+    finalSize[1] // arr[y][x] always
+  ).fill(
+    new Array(finalSize[0]).fill(0)
+  ) // Create an empty array with 0 placeholders
 
+  outputs.forEach(output => {
+    const offsets = [
+      options[output.index].constants.hive_offset_x,
+      options[output.index].constants.hive_offset_y
+    ]
+
+    for (let y in output.out) {  // To support iterable arrays as well as objects
+      for (let x in output.out[y]) {
+        const X = Number(x);
+        const Y = Number(y);
+       
+        finalOutput[Y + offsets[1]][X + offsets[0]] = output.out[y][x];
+      }
+    }
+  })
   
-  return finalOutput;
+  return finalOutput as number[][];
 }

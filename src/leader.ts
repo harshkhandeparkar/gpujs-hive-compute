@@ -29,8 +29,7 @@ export function hiveRun(
   const output = standardizeOutput(kernelOptions.output);
   kernelOptions.output = output.finalOutput;
 
-  // Only 1-D output is supported as of now.
-  if (output.dimensions > 1) throw 'Only 1-D output is supported as of now';
+  if (output.dimensions > 2) throw 'Only 1-D and 2-D outputs are supported as of now';
 
   const server = new WS.Server({ port: wsPort }); // Initialize the WebSocket server
   onWaitingForHelpers(`ws://${address()}:${wsPort}`);

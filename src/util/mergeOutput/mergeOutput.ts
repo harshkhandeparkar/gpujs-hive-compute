@@ -1,5 +1,5 @@
 import merge1DOutput, { Output1D } from './merge1DOutput';
-import { Output2D } from './merge2DOutput';
+import merge2DOutput, { Output2D } from './merge2DOutput';
 
 export default function mergeOutput(
   outputs: {
@@ -12,6 +12,8 @@ export default function mergeOutput(
   switch (outputDimensions) {
     case 1:
       return merge1DOutput(outputs as { out: Output1D, index: number }[]);
+    case 2:
+      return merge2DOutput(outputs as { out: Output2D, index: number }[], options);
   }
 }
 
