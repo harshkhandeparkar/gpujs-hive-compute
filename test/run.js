@@ -8,23 +8,41 @@ const kernelFunc = function(a) {
 }
 
 const a = [10, 20, 30, 40, 10, 13, 21, 13.5];
-const kernelOptions = {
+const kernelOptions1D = {
   output: [8]
+}
+
+const kernelOptions2D = {
+  output: [8, 13]
 }
 
 const gpu = new GPU();
 
 test(`Hive output and local output should match`, t => {
-  const localOutput = Array.from(gpu.createKernel(kernelFunc, kernelOptions)(a));
+  const localOutput1D = Array.from(gpu.createKernel(kernelFunc, kernelOptions1D)(a));
   
-  hiveRun(gpu, kernelFunc, kernelOptions, 
+  hiveRun(gpu, kernelFunc, kernelOptions1D, 
     url => {
       hiveHelp(gpu, url); // self help
     },
     numHelpers => numHelpers >= 1,
     hiveOutput => {
-      t.deepEqual(hiveOutput, localOutput, '1D output matches')
-      t.end();
+      t.deepEqual(hiveOutput, localOutput1D, '1D output matches');
+
+      const localOutput2D = Array.from(gpu.createKernel(kernelFunc, kernelOptions2D)(a));
+      localOutput2D.forEach((out, i) => localOutput2D[i] = Array.from(out))
+  
+      hiveRun(gpu, kernelFunc, kernelOptions2D, 
+        url => {
+          hiveHelp(gpu, url); // self help
+        },
+        numHelpers => numHelpers >= 1,
+        hiveOutput => {
+          t.deepEquals(hiveOutput, localOutput2D, '2D output matches')
+          t.end();
+        },
+        [a]
+      )
     },
     [a]
   )
