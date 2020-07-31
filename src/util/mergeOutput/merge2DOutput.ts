@@ -8,11 +8,12 @@ export default function merge2DOutput(
   options: any[] // To get the offsets
 ) {
   const finalSize = [options[0].constants.hive_output_x, options[0].constants.hive_output_y];
-  let finalOutput: number[][] = new Array(finalSize[1]) // arr[y][x] always
+  let finalOutput: number[][] = new Array(finalSize[1]); // arr[y][x] always
 
-  for (let i = 0; i < finalSize[1]; i++) { // Fill with 0 placeholders
-    finalOutput.push(new Array(finalSize[0]).fill(0))
+  for (let i = 0; i < finalOutput.length; i++) { // Fill with 0 placeholders
+    finalOutput[i] = (new Array(finalSize[0]).fill(0))
   }
+
 
   outputs.forEach(output => {
     const offsets = [
