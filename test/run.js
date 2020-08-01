@@ -26,6 +26,7 @@ test(`Hive output and local output should match`, t => {
       hiveHelp(gpu, url); // self help
     },
     numHelpers => numHelpers >= 1,
+    console.log,
     hiveOutput => {
       t.deepEqual(hiveOutput, localOutput1D, '1D output matches');
 
@@ -37,6 +38,7 @@ test(`Hive output and local output should match`, t => {
           hiveHelp(gpu, url); // self help
         },
         numHelpers => numHelpers >= 1,
+        console.log,
         hiveOutput => {
           t.deepEquals(hiveOutput, localOutput2D, '2D output matches')
           t.end();
