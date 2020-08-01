@@ -75,20 +75,22 @@ hiveHelp(
 ### API
 The library exports the following functions:
 
-#### `hiveRun(gpu, func, kernelOptions, onWaitingForHelpers, doContinueOnHelperJoin, cb, inputs?)`
+#### `hiveRun(gpu, func, kernelOptions, onWaitingForHelpers, doContinueOnHelperJoin, logFunction, cb, inputs?)`
 Parameters:
 1. `gpu` (GPU): Instance of a GPU.js [`GPU`](https://github.com/gpujs/gpu.js#gpu-settings) object.
 2. `func` (Function): The GPU.js [kernel](https://github.com/gpujs/gpu.js#creating-and-running-functions) function.
 3. `kernelOptions` (Object): GPU.js [kernel settings/options](https://github.com/gpujs/gpu.js#gpucreatekernel-settings).
 4. `onWaitingForHelpers(url) => void` (Function): A callback that is fired when a the hive is accepting helpers, the only parameter is the join url.
 5. `doContinueOnHelperJoin(numHelpers) => boolean` (Function): This is a callback function that is fired whenever a new helper joins. The parameter `numHelpers` is the number of helpers currently active. Return `true` to run the kernel or `false` to wait for more helpers to join. No new helper can join while the kernel is running.
-6. `cb(output) => void` (Function): This callback is fired when the kernel is completely run and the [output](https://github.com/gpujs/gpu.js#creating-and-running-functions) is generated.
-7. `inputs` (Array): This is an array of [kernel inputs](https://github.com/gpujs/gpu.js#accepting-input) in the form `[arg1, arg2, arg3]`.
+6. `logFunction(...args) => void` (Function): A custom log function if you don't want console logs.  (`console.log` by default)
+7. `cb(output) => void` (Function): This callback is fired when the kernel is completely run and the [output](https://github.com/gpujs/gpu.js#creating-and-running-functions) is generated.
+8. `inputs` (Array): This is an array of [kernel inputs](https://github.com/gpujs/gpu.js#accepting-input) in the form `[arg1, arg2, arg3]`.
 
-#### `hiveHelp(gpu, url)`
+#### `hiveHelp(gpu, url, logFunction)`
 Parameters:
 1. `gpu` (GPU): Instance of a GPU.js [`GPU`](https://github.com/gpujs/gpu.js#gpu-settings) object.
 2. `url` (string): The [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) URL used by the Leader and Helper to communicate. The URL will be logged to the console by the leader. e.g: `ws://192.168.0.10:8782`.
+3. `logFunction(...args) => void` (Function): A custom log function if you don't want console logs.  (`console.log` by default)
 
 ### Caveats
 The following features of GPU.js are not supported as of now:
