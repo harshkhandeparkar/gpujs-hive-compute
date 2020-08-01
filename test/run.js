@@ -23,7 +23,7 @@ test(`Hive output and local output should match`, t => {
   
   hiveRun(gpu, kernelFunc, kernelOptions1D, 
     url => {
-      hiveHelp(gpu, url); // self help
+      hiveHelp(gpu, url, (logs) => null); // self help
     },
     numHelpers => numHelpers >= 1,
     () => null, // Don't log anything 
@@ -35,7 +35,7 @@ test(`Hive output and local output should match`, t => {
   
       hiveRun(gpu, kernelFunc, kernelOptions2D, 
         url => {
-          hiveHelp(gpu, url); // self help
+          hiveHelp(gpu, url, (logs) => null); // self help
         },
         numHelpers => numHelpers >= 1,
         () => null, // don't log anything
