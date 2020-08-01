@@ -14,6 +14,7 @@ import { TELL_ACTIONS } from './util/constants';
  * @param func The kernel function to be run
  * @param kernelOptions Kernel options/settings (currently only supports 1-D)
  * @param doContinueOnHelperJoin A callback that is fired whenever a new helper joins. Return true to run the kernel and false to wait for more helpers.
+ * @param logFunction A custom log function
  * @param cb Callback that is fired when the run is complete
  * @param input input for the kernel
  */
@@ -23,6 +24,7 @@ export function hiveRun(
   kernelOptions: IGPUKernelSettings,
   onWaitingForHelpers: (url: string) => void,
   doContinueOnHelperJoin: (numHelpers: number) => boolean,
+  logFunction: Function = console.log,
   cb: (output: KernelOutput) => void,
   input: any[] = []
 ): void {
@@ -49,21 +51,23 @@ export function hiveRun(
         })
 
         helperList.push(ws);
-        console.log(`New Helper #${helperId} Joined !!`);
+        logFunction(`New Helper #${helperId} Joined !!`);
 
         const run = doContinueOnHelperJoin(helperList.length);
         if (run) {
-          console.log('Building + Running on hive');
+          logFunction('Building + Running on hive');
 
           acceptingConnections = false;
           runKernel(gpu, func, kernelOptions, output.dimensions, inputsLength, input, helperList, (...args) => {
-            server.close(); // Stop the server
-            return cb(...args);
-          }) 
+              server.close(); // Stop the server
+              return cb(...args);
+            },
+            logFunction
+          ) 
         }
 
         onDisconnect(ws, () => {
-          console.log(`Helper #${helperId} Disconnected :(`);
+          logFunction(`Helper #${helperId} Disconnected :(`);
           helperList.splice(helperId, helperId + 1);
         })
       }

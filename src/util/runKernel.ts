@@ -16,7 +16,8 @@ export default function runKernel(
   inputsLength: number,
   inputs: number[],
   helperList: WS[],
-  cb: (finalOutput: KernelOutput) => void
+  cb: (finalOutput: KernelOutput) => void,
+  logFunction: Function
 ) {
   const kernelOpts = generateOptions(kernelOptions, helperList.length, outputDimensions);
   kernelFunc = offsetKernel(kernelFunc, outputDimensions);
@@ -31,7 +32,7 @@ export default function runKernel(
     })
   })
 
-  console.log(`Building kernel locally.`);
+  logFunction(`Building kernel locally.`);
   const k = gpu.createKernel(kernelFunc as KernelFunction, kernelOpts[0]);
 
   let builtKernelHelpers = 0; // Number of helpers that completed building the kernel
@@ -43,11 +44,11 @@ export default function runKernel(
 
   helperList.forEach((helper, helperId) => {
     onTell(helper, TELL_ACTIONS.KERNEL_BUILT, (data: TELL_DATA) => {
-      console.log(`Kernel built on helper #${helperId}, running.`);
+      logFunction(`Kernel built on helper #${helperId}, running.`);
       builtKernelHelpers++;
 
       if (builtKernelHelpers === helperList.length) {
-        console.log(`All kernels built, running.`);
+        logFunction(`All kernels built, running.`);
         helperList.forEach(helper => {
           ask(helper, {
             action: ASK_ACTIONS.RUN_KERNEL,
@@ -71,7 +72,7 @@ export default function runKernel(
     })
 
     onTell(helper, TELL_ACTIONS.KERNEL_RUN_DONE, (data: TELL_DATA) => {
-      console.log(`Kernel run on helper #${helperId}.`);
+      logFunction(`Kernel run on helper #${helperId}.`);
       kernelRunHelpers++;
       outputs.push({
         out: Object.values(data.extras.output) as (Output1D | Output2D),
@@ -79,7 +80,7 @@ export default function runKernel(
       })
 
       if (kernelRunHelpers === helperList.length) {
-        console.log(`All kernels run, generating final output`);
+        logFunction(`All kernels run, generating final output`);
         cb(mergeOutput(outputs, outputDimensions, kernelOpts));
       }
     })
