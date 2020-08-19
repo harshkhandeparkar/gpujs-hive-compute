@@ -1,6 +1,6 @@
 {
   "name": "gpujs-hive-compute",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "license": "MIT",
