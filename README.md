@@ -37,25 +37,26 @@ const GPU = require('gpu.js'); // This is required to be installed separately
 
 const gpu = new GPU(); // Instantiate
 
-hiveRun(
-  gpu, // give the GPU object
-  function(arg1, arg2) {
+hiveRun({
+  gpu: gpu, // give the GPU object
+  func: function(arg1, arg2) {
     return arg1 + arg2; // A normal GPU.js kernel function
   },
-  {
+  options: {
     output: [20] // Standard GPU.js kernel settings/options
   },
-  (numHelpers) => { // This callback is fired whenever a new helper joins. Return true
+  onWaitingForHelpers: url => console.log(url),
+  doContinueOnHelperJoin: (numHelpers) => { // This callback is fired whenever a new helper joins. Return true
     return numHelpers > 3; // If more than 3 helpers join, it will run the kernel and during this time, no new helper can join.
   },
-  (output) => {
+  cb: (output) => {
     console.log(output); // This callback is fired when the final output is generated
   },
-  [ // Inputs for the kernel, leave blank if there are no inputs.
+  inputs: [ // Inputs for the kernel, leave blank if there are no inputs.
     5, // arg1
     6 // arg2
   ],
-)
+})
 ```
 See `examples/squares.js`.
 
@@ -66,17 +67,17 @@ const GPU = require('gpu.js'); // This is required to be installed separately
 
 const gpu = new GPU(); // Instantiate
 
-hiveHelp(
-  gpu,
-  `ws://192.168.0.10:8782` // This URL will be logged to the console by the Leader and will differ from device to device.
-)
+hiveHelp({
+  gpu: gpu,
+  url: `ws://192.168.0.10:8782` // This URL will be logged to the console by the Leader and will differ from device to device.
+})
 ```
 
 ### API
 The library exports the following functions:
 
-#### `hiveRun(gpu, func, kernelOptions, onWaitingForHelpers, doContinueOnHelperJoin, logFunction, cb, inputs?)`
-Parameters:
+#### `hiveRun(options)`
+Where options is an object with the following properties:
 1. `gpu` (GPU): Instance of a GPU.js [`GPU`](https://github.com/gpujs/gpu.js#gpu-settings) object.
 2. `func` (Function): The GPU.js [kernel](https://github.com/gpujs/gpu.js#creating-and-running-functions) function.
 3. `kernelOptions` (Object): GPU.js [kernel settings/options](https://github.com/gpujs/gpu.js#gpucreatekernel-settings).
@@ -86,8 +87,8 @@ Parameters:
 7. `cb(output) => void` (Function): This callback is fired when the kernel is completely run and the [output](https://github.com/gpujs/gpu.js#creating-and-running-functions) is generated.
 8. `inputs` (Array): This is an array of [kernel inputs](https://github.com/gpujs/gpu.js#accepting-input) in the form `[arg1, arg2, arg3]`.
 
-#### `hiveHelp(gpu, url, logFunction)`
-Parameters:
+#### `hiveHelp(options)`
+Where options is an object with the following properties:
 1. `gpu` (GPU): Instance of a GPU.js [`GPU`](https://github.com/gpujs/gpu.js#gpu-settings) object.
 2. `url` (string): The [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) URL used by the Leader and Helper to communicate. The URL will be logged to the console by the leader. e.g: `ws://192.168.0.10:8782`.
 3. `logFunction(...args) => void` (Function): A custom log function if you don't want console logs.  (`console.log` by default)
