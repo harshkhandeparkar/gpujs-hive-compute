@@ -8,26 +8,37 @@ import { onConnect, onDisconnect, tell } from './util/comm';
 import { wsPort } from './config.json';
 import { TELL_ACTIONS } from './util/constants';
 
-/**
- * 
- * @param gpu Instance of a GPU.js `GPU` class.
- * @param func The kernel function to be run
- * @param kernelOptions Kernel options/settings (currently only supports 1-D)
- * @param doContinueOnHelperJoin A callback that is fired whenever a new helper joins. Return true to run the kernel and false to wait for more helpers.
- * @param logFunction A custom log function
- * @param cb Callback that is fired when the run is complete
- * @param input input for the kernel
- */
-export function hiveRun(
+export type hiveRunOptions = {
+  /** Instance of gpu.js GPU class */
   gpu: GPU,
+  /** Kernel Function */
   func: Function,
+  /** GPU.js kernel options/settings */
   kernelOptions: IGPUKernelSettings,
+  /** A callback that is fired once the leader starts and is waiting for helpers to join */
   onWaitingForHelpers: (url: string) => void,
+  /** A callback that is fired each time a new helper joins, return true to start running the kernel and false otherwise */
   doContinueOnHelperJoin: (numHelpers: number) => boolean,
-  logFunction: Function = console.log,
+  /** A log function for internal logs, default console.log */
+  logFunction: (...logs: any) => void,
+  /** A callback that is fired when the kernel output is ready */
   cb: (output: KernelOutput) => void,
-  input: any[] = []
-): void {
+  /** Inputs for the kernel, an array of arguments. */
+  inputs: any[]
+}
+
+export const hiveRunDefaults = {
+  logFunction: console.log
+}
+
+export function hiveRun(options: hiveRunOptions): void {
+  options = {
+    ...hiveRunDefaults,
+    ...options
+  }
+
+  const { gpu, func, kernelOptions, onWaitingForHelpers, doContinueOnHelperJoin, logFunction, cb, inputs: input } = options;
+
   const output = standardizeOutput(kernelOptions.output);
   kernelOptions.output = output.finalOutput;
 
