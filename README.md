@@ -19,7 +19,7 @@ yarn add gpujs-hive-compute
 ```
 
 #### In the browser
-Browser usage is theoretically possible but I will probably put it in a separate repo later.
+See [browser-hive-compute](https://github.com/HarshKhandeparkar/browser-hive-compute).
 
 #### CLI
 There is no default CLI for this because building one is really easy. See `examples/squares.js` and `examples/helper-cli.js`.
