@@ -21,31 +21,45 @@ const gpu = new GPU();
 test(`Hive output and local output should match`, t => {
   const localOutput1D = Array.from(gpu.createKernel(kernelFunc, kernelOptions1D)(a));
   
-  hiveRun(gpu, kernelFunc, kernelOptions1D, 
-    url => {
-      hiveHelp(gpu, url, (logs) => null); // self help
+  hiveRun({
+    gpu,
+    func: kernelFunc,
+    kernelOptions: kernelOptions1D, 
+    onWaitingForHelpers: url => {
+      hiveHelp({
+        gpu,
+        url,
+        logFunction: (logs) => null
+      }) // self help
     },
-    numHelpers => numHelpers >= 1,
-    () => null, // Don't log anything 
-    hiveOutput => {
+    doContinueOnHelperJoin: numHelpers => numHelpers >= 1,
+    logFunction: () => null, // Don't log anything 
+    cb: hiveOutput => {
       t.deepEqual(hiveOutput, localOutput1D, '1D output matches');
 
       const localOutput2D = Array.from(gpu.createKernel(kernelFunc, kernelOptions2D)(a));
       localOutput2D.forEach((out, i) => localOutput2D[i] = Array.from(out))
   
-      hiveRun(gpu, kernelFunc, kernelOptions2D, 
-        url => {
-          hiveHelp(gpu, url, (logs) => null); // self help
+      hiveRun({
+        gpu,
+        func: kernelFunc,
+        kernelOptions: kernelOptions2D, 
+        onWaitingForHelpers: url => {
+          hiveHelp({
+            gpu,
+            url,
+            logFunction: (logs) => null
+          }) // self help
         },
-        numHelpers => numHelpers >= 1,
-        () => null, // don't log anything
-        hiveOutput => {
+        doContinueOnHelperJoin: numHelpers => numHelpers >= 1,
+        logFunction: () => null, // don't log anything
+        cb: hiveOutput => {
           t.deepEquals(hiveOutput, localOutput2D, '2D output matches')
           t.end();
         },
-        [a]
-      )
+        inputs: [a]
+      })
     },
-    [a]
-  )
+    inputs: [a]
+  })
 })
