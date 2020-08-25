@@ -28,7 +28,7 @@ You can clone the repository, run `yarn install` and run `node examples/helper-c
 #### Using as a Library
 **NOTE:** This library uses Websockets for communication because they are standard, browser-compatible and easy to use.
 
-The library has two core components, the **Helper** and the **Leader**. The *Leader* is the main device which you control and which asks the other connected devices i.e *Helper*s to build and run parts of the kernel. The Helper side code is just like writing any GPU.js kernel, the library handles all the splitting of work between devices. The Helper and Leader can communicate as long as they are on the same local network. (or if the leader's global ip and port are exposed and known)
+The library has two core components, the **Helper** and the **Leader**. The *Leader* is the main device which you control and which asks the other connected devices i.e *Helper*s to build and run parts of the kernel. The Leader side code is just like writing any GPU.js kernel, the library handles all the splitting of work between devices. The Helper and Leader can communicate as long as they are on the same local network. (or if the leader's global ip and port are exposed and known)
 
 Example Leader: (This will work with typescript as well)
 ```js
