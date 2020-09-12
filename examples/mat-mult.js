@@ -2,6 +2,22 @@ const { hiveRun } = require('../dist/index');
 const { GPU } = require('gpu.js');
 const { question } = require('readline-sync');
 
+function generateRandomMatrices(x, y) {
+  const M1 = [], M2 = [];
+
+  for (let i = 0; i < y; i++) {
+    M1.push([]);
+    M2.push([]);
+
+    for (let j = 0; j < x; j++) {
+      M1[i].push(Math.random());
+      M2[i].push(Math.random());
+    }
+  }
+
+  return [M1, M2];
+}
+
 hiveRun({
   gpu: new GPU(),
   func: function(a, b) {
@@ -12,7 +28,7 @@ hiveRun({
     return sum;
   },
   kernelOptions: {
-    output: [10, 10]
+    output: [100, 100]
   },
   onWaitingForHelpers: url => console.log(url),
   doContinueOnHelperJoin: numHelpers => question(`${numHelpers} helpers joined, run the kernel now (y/n)?: `).toLowerCase() == `y`,
@@ -20,30 +36,5 @@ hiveRun({
   cb: output => {
     console.log('Final Output', output);
   },
-  inputs: [
-    [
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      [10, 9, 4, 5, 3, 2, 1, 3, 3, 1],
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      [10, 9, 4, 5, 3, 2, 1, 3, 3, 1],
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      [10, 9, 4, 5, 3, 2, 1, 3, 3, 1],
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    ],
-    [
-      [10, 9, 4, 5, 3, 2, 1, 3, 3, 1],
-      [10, 9, 4, 5, 3, 2, 1, 3, 3, 1],
-      [10, 9, 4, 5, 3, 2, 1, 3, 3, 1],
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      [10, 9, 4, 5, 3, 2, 1, 3, 3, 1],
-      [10, 9, 4, 5, 3, 2, 1, 3, 3, 1],
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      [10, 9, 4, 5, 3, 2, 1, 3, 3, 1],
-      [10, 9, 4, 5, 3, 2, 1, 3, 3, 1],
-    ]
-  ]
+  inputs: generateRandomMatrices(100, 100)
 })
