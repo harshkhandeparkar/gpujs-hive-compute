@@ -23,7 +23,7 @@ See [browser-hive-compute](https://github.com/HarshKhandeparkar/browser-hive-com
 
 #### CLI
 There is no default CLI for this because building one is really easy. See `examples/squares.js` and `examples/helper-cli.js`.
-You can clone the repository, run `yarn install` and run `node examples/helper-cli.js` to use a simple CLI for Helper. You can use `examples/squares.js` as a template for real CLI usage of the library or use it for testing.
+You can clone the repository, run `yarn install` and `yarn build` and run `node examples/helper-cli.js` to use a simple CLI for Helper. You can use `examples/squares.js` as a template for real CLI usage of the library or use it for testing.
 
 #### Using as a Library
 **NOTE:** This library uses Websockets for communication because they are standard, browser-compatible and easy to use.
