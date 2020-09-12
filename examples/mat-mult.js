@@ -18,23 +18,43 @@ function generateRandomMatrices(x, y) {
   return [M1, M2];
 }
 
+function matMultKernel(a, b) {
+  let sum = 0;
+  for (let i = 0; i < this.output.x; i++) {
+    sum += a[this.thread.y][i] * b[i][this.thread.x];
+  }
+  return sum;
+}
+
+const gpu = new GPU();
+const matrixSize = [1024, 1024];
+const matrices = generateRandomMatrices(...matrixSize);
+const kernelOptions = {
+  output: matrixSize
+}
+
+console.log(`Multiplying two ${matrixSize[0]}x${matrixSize[1]} matrices both on a hive and a single device.`);
+
+let t = process.hrtime();
+const K = gpu.createKernel(matMultKernel, kernelOptions);
+K(matrices[0], matrices[1]);
+console.log('Single device (local):', (process.hrtime(t)[0] * (10 ** 9) + process.hrtime(t)[1]) / (10**6), 'milliseconds');
+
 hiveRun({
-  gpu: new GPU(),
-  func: function(a, b) {
-    let sum = 0;
-    for (let i = 0; i < this.output.x; i++) {
-      sum += a[this.thread.y][i] * b[i][this.thread.x];
-    }
-    return sum;
-  },
-  kernelOptions: {
-    output: [100, 100]
-  },
+  gpu,
+  func: matMultKernel,
+  kernelOptions,
   onWaitingForHelpers: url => console.log(url),
-  doContinueOnHelperJoin: numHelpers => question(`${numHelpers} helpers joined, run the kernel now (y/n)?: `).toLowerCase() == `y`,
-  logFunction: console.log, // log function
-  cb: output => {
-    console.log('Final Output', output);
+  doContinueOnHelperJoin: numHelpers => {
+    if (question(`${numHelpers} helpers joined, run the kernel now (y/n)?: `).toLowerCase() == `y`) {
+      t = process.hrtime();
+      return true;
+    }
+    else return false;
   },
-  inputs: generateRandomMatrices(100, 100)
+  logFunction: () => {}, // Do not log anything
+  cb: output => {
+    console.log('Hive:', (process.hrtime(t)[0] * (10 ** 9) + process.hrtime(t)[1]) / (10**6), 'milliseconds');
+  },
+  inputs: matrices
 })
