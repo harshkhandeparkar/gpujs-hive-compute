@@ -1,6 +1,6 @@
 const { hiveRun } = require('../dist/index');
 const { GPU } = require('gpu.js');
-const { question } = require('readline-sync');
+const { question, questionInt } = require('readline-sync');
 
 function generateRandomMatrices(x, y) {
   const M1 = [], M2 = [];
@@ -27,7 +27,8 @@ function matMultKernel(a, b) {
 }
 
 const gpu = new GPU();
-const matrixSize = [1024, 1024];
+const matrixDim = questionInt('Matrix Size(nxn)?');
+const matrixSize = [matrixDim, matrixDim];
 const matrices = generateRandomMatrices(...matrixSize);
 const kernelOptions = {
   output: matrixSize
