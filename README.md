@@ -2,6 +2,7 @@
 Use multiple computers on a network to run a single [GPU.js](https://github.com/gpujs/gpu.js) kernel!
 
 Benchmark Results:
+
 ![bench](https://files.gitter.im/5cb7663bd73408ce4fbe0054/IUTE/image.png)
 
 ### Table of Contents
