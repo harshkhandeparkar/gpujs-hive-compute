@@ -98,7 +98,6 @@ Where options is an object with the following properties:
 3. `logFunction(...args) => void` (Function): A custom log function if you don't want console logs.  (`console.log` by default)
 
 ### Caveats
-The following features of GPU.js are not supported as of now:
 - **3-D kernel outputs**: Will be supported soon
 - **Graphical Output**: There is no straightforward way of doing this. (Basically impossible)
 - [**Pipelining**](https://github.com/gpujs/gpu.js#pipelining): The task is distributed among multiple GPUs so there is no single texture that can be pipelined.
