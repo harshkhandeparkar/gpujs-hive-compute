@@ -1,7 +1,7 @@
 import standardizeOutput from '../../src/util/standardizeOutput';
-import tape from 'tape';
+import test from 'tape';
 
-tape('IKernelXYZ Output size object should be converted to an array', t => {
+test('IKernelXYZ Output size object should be converted to an array', t => {
   const inputOutputPairs = {
     '1D Object': {
       inputSize: { x: 5 },
