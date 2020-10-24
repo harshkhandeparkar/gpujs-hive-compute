@@ -31,58 +31,74 @@ export const hiveRunDefaults = {
   logFunction: console.log
 }
 
-export function hiveRun(options: hiveRunOptions): void {
-  options = {
-    ...hiveRunDefaults,
-    ...options
-  }
-
-  const { gpu, func, kernelOptions, onWaitingForHelpers, doContinueOnHelperJoin, logFunction, cb, inputs: input } = options;
-
-  const output = standardizeOutput(kernelOptions.output);
-  kernelOptions.output = output.finalOutput;
-
-  if (output.dimensions > 2) throw 'Only 1-D and 2-D outputs are supported as of now';
-
-  const server = new WS.Server({ port: wsPort }); // Initialize the WebSocket server
-  onWaitingForHelpers(`ws://${address()}:${wsPort}`);
-
-  const helperList: WS[] = []; // List of all helper websockets
-  let acceptingConnections = true;
-
-  const inputsLength = func.length;
-
-  server.on('connection', (ws: WS) => {
-    onConnect(ws, ws => {
-      const helperId = helperList.length;
-
-      if (acceptingConnections) {
-        tell(ws, {
-          action: TELL_ACTIONS.CONN_ACCEPTED
-        })
-
-        helperList.push(ws);
-        logFunction(`New Helper #${helperId} Joined !!`);
-
-        const run = doContinueOnHelperJoin(helperList.length);
-        if (run) {
-          logFunction('Building + Running on hive');
-
-          acceptingConnections = false;
-          runKernel(gpu, func, kernelOptions, output.dimensions, inputsLength, input, helperList, (...args) => {
-              server.close(); // Stop the server
-              return cb(...args);
-            },
-            logFunction
-          ) 
-        }
-
-        onDisconnect(ws, () => {
-          logFunction(`Helper #${helperId} Disconnected :(`);
-          helperList.splice(helperId, helperId + 1);
-        })
+export async function hiveRun(options: hiveRunOptions) {
+  return new Promise(
+    (
+      resolve: (output: KernelOutput) => void,
+      reject: (e: Error) => void
+    ) => {
+      options = {
+        ...hiveRunDefaults,
+        ...options
       }
-      else ws.close();
-    })
-  })
+
+      const { gpu, func, kernelOptions, onWaitingForHelpers, doContinueOnHelperJoin, logFunction, cb, inputs: input } = options;
+
+      const output = standardizeOutput(kernelOptions.output);
+      kernelOptions.output = output.finalOutput;
+
+      if (output.dimensions > 2) {
+        return reject(new Error('Only 1-D and 2-D outputs are supported as of now'));
+      }
+
+      const server = new WS.Server({ port: wsPort }); // Initialize the WebSocket server
+      onWaitingForHelpers(`ws://${address()}:${wsPort}`);
+
+      const helperList: WS[] = []; // List of all helper websockets
+      let acceptingConnections = true;
+
+      const inputsLength = func.length;
+
+      server.on('connection', (ws: WS) => {
+        onConnect(ws, async ws => {
+          const helperId = helperList.length;
+
+          if (acceptingConnections) {
+            tell(ws, {
+              action: TELL_ACTIONS.CONN_ACCEPTED
+            })
+
+            helperList.push(ws);
+            logFunction(`New Helper #${helperId} Joined !!`);
+
+            const run = doContinueOnHelperJoin(helperList.length);
+            if (run) {
+              logFunction('Building + Running on hive');
+
+              acceptingConnections = false;
+              const out = await runKernel(
+                gpu,
+                func,
+                kernelOptions,
+                output.dimensions,
+                inputsLength,
+                input,
+                helperList,
+                logFunction
+              )
+
+              resolve(out);
+              server.close();
+            }
+
+            onDisconnect(ws, () => {
+              logFunction(`Helper #${helperId} Disconnected :(`);
+              helperList.splice(helperId, helperId + 1);
+            })
+          }
+          else ws.close();
+        })
+      })
+    }
+  )
 }
