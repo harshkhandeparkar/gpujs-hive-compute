@@ -102,7 +102,7 @@ Where options is an object with the following properties:
 - **Graphical Output**: There is no straightforward way of doing this. (Basically impossible)
 - [**Pipelining**](https://github.com/gpujs/gpu.js#pipelining): The task is distributed among multiple GPUs so there is no single texture that can be pipelined.
 - **Not All Kernel Constants are available**: Kernel constants are supported but the following names are reserved by the library: `hive_offset_x`, `hive_offset_y`, `hive_offset_z`, `hive_output_x`, `hive_output_y` and `hive_output_z`.
-- **Slightly network intensive**: The data between helpers and leaders is sent as JSON, a 1000\*1000 array of 4 digit(including decimals and the `.`) numbers  is about 5,002,001 characters as a JSON string. Considering each character to be one byte, this is about 5MB. The leader will have to receive about this much data and each of the helpers will have to send about 5/n MB of data. This can be slow over wifi and will be much slower for larger input sizes which are quite common. At least 100Mbit/s ethernet is recommended. (Or 5GHz wifi)
+- **Slightly network intensive**: The data between helpers and leaders is sent as JSON. According to a test, with a single helper, the leader and helper both received or transmitted a total of 50MB for a 1000\*1000 matrix multiplication. This can be slow over wifi and will be much slower for larger input sizes which are quite common. At least 100Mbit/s ethernet is recommended. (Or 5GHz wifi)
 
 
 ****
