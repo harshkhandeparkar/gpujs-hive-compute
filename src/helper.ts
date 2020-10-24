@@ -16,13 +16,13 @@ export const hiveHelpDefaults = {
 }
 
 /**
- * 
+ *
  * @param options Options for the hiveHelp method
  */
-export function hiveHelp(options: hiveHelpOptions) {
+export async function hiveHelp(options: hiveHelpOptions) {
   options = {
     ...hiveHelpDefaults,
     ...options
   }
-  runHelper(WS, options.gpu, options.url, options.logFunction);
+  return await runHelper(WS, options.gpu, options.url, options.logFunction);
 }

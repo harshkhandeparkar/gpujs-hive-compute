@@ -74,7 +74,7 @@ const gpu = new GPU(); // Instantiate
 hiveHelp({
   gpu: gpu,
   url: `ws://192.168.0.10:8782` // This URL will be logged to the console by the Leader and will differ from device to device.
-})
+}).then(() => console.log('successfully converted')).catch(e => console.log(e));
 ```
 
 ### API
@@ -91,11 +91,13 @@ Where options is an object with the following properties:
 7. `cb(output) => void` (Function): This callback is fired when the kernel is completely run and the [output](https://github.com/gpujs/gpu.js#creating-and-running-functions) is generated.
 8. `inputs` (Array): This is an array of [kernel inputs](https://github.com/gpujs/gpu.js#accepting-input) in the form `[arg1, arg2, arg3]`.
 
-#### `hiveHelp(options)`
+#### `hiveHelp(options) => Promise()`
 Where options is an object with the following properties:
 1. `gpu` (GPU): Instance of a GPU.js [`GPU`](https://github.com/gpujs/gpu.js#gpu-settings) object.
 2. `url` (string): The [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) URL used by the Leader and Helper to communicate. The URL will be logged to the console by the leader. e.g: `ws://192.168.0.10:8782`.
 3. `logFunction(...args) => void` (Function): A custom log function if you don't want console logs.  (`console.log` by default)
+
+Returns a promise which either rejects with an error or resolves when the whole process is complete.
 
 ### Caveats
 - **3-D kernel outputs**: Will be supported soon
