@@ -40,7 +40,7 @@ export async function hiveRun(options: hiveRunOptions) {
         ...options
       }
 
-      const { gpu, func, kernelOptions, onWaitingForHelpers, doContinueOnHelperJoin, logFunction, cb, inputs: input } = options;
+      const { gpu, func, kernelOptions, onWaitingForHelpers, doContinueOnHelperJoin, logFunction, inputs: input } = options;
 
       const output = standardizeOutput(kernelOptions.output);
       kernelOptions.output = output.finalOutput;
