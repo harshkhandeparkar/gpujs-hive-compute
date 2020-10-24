@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "test": "yarn build && TEST=true tape test/*.js test/**/*.js | tap-spec",
+    "test": "TEST=true ts-node test/**/*.ts | tap-spec",
     "npm-publish": "yarn test && yarn publish"
   },
   "dependencies": {
@@ -18,11 +18,13 @@
     "@types/ip": "^1.1.0",
     "@types/node": "^14.0.24",
     "@types/readline-sync": "^1.4.3",
+    "@types/tape": "^4.13.0",
     "@types/ws": "^7.2.6",
     "gpu.js": "^2.9.5",
     "readline-sync": "^1.4.10",
     "tap-spec": "^5.0.0",
     "tape": "^5.0.1",
+    "ts-node": "^9.0.0",
     "typescript": "^3.9.7"
   }
 }
