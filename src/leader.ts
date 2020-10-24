@@ -21,8 +21,6 @@ export type hiveRunOptions = {
   doContinueOnHelperJoin: (numHelpers: number) => boolean,
   /** A log function for internal logs, default console.log */
   logFunction: (...logs: any) => void,
-  /** A callback that is fired when the kernel output is ready */
-  cb: (output: KernelOutput) => void,
   /** Inputs for the kernel, an array of arguments. */
   inputs: any[]
 }
