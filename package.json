@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "test": "TEST=true ts-node -r ./test/**/*.ts ./test/**/**/*.ts | tap-spec",
+    "test": "TEST=true ts-node -r ./test/*.ts ./test/**/*.ts | tap-spec",
     "npm-publish": "yarn test && yarn publish"
   },
   "dependencies": {
