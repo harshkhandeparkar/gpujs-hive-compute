@@ -19,7 +19,7 @@ export async function runHelper(WS: any, gpu: GPU, url: string, logFunction: Fun
       logFunction('Connecting as helper.');
       ws.send(JSON.stringify({type: COMM_TYPE.REQUEST_CONN, data: {}}));
 
-      onTell(ws, TELL_ACTIONS.CONN_ACCEPTED, () => logFunction('Connection Accepted.'));
+      onTell(ws, TELL_ACTIONS.CONN_ACCEPTED, () => logFunction('Connection accepted.'));
     })
 
     ws.on('error', () => {
@@ -32,9 +32,9 @@ export async function runHelper(WS: any, gpu: GPU, url: string, logFunction: Fun
     })
 
     onAsk(ws, ASK_ACTIONS.BUILD_KERNEL, (data: ASK_DATA) => { // Build the kernel
-      logFunction('building');
+      logFunction('Building kernel.');
       k = gpu.createKernel(data.extras.kernelFunc, data.extras.kernelOptions); //  Build the kernel
-      logFunction('built');
+      logFunction('Kernel built.');
 
       tell(ws, {
         action: TELL_ACTIONS.KERNEL_BUILT
@@ -42,11 +42,11 @@ export async function runHelper(WS: any, gpu: GPU, url: string, logFunction: Fun
     })
 
     onAsk(ws, ASK_ACTIONS.RUN_KERNEL, (data: ASK_DATA) => { // Run the kernel
-      logFunction('running');
+      logFunction('Running kernel.');
       let output: KernelOutput;
       if (data.extras.inputsLength > 0) output = k(...data.extras.inputs); //  Run the kernel
       else output = k();
-      logFunction('done');
+      logFunction('Output generated, transmitting.');
 
       tell(ws, {
         action: TELL_ACTIONS.KERNEL_RUN_DONE,

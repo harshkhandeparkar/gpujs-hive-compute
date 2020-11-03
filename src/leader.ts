@@ -67,12 +67,10 @@ export async function hiveRun(options: hiveRunOptions) {
             })
 
             helperList.push(ws);
-            logFunction(`New Helper #${helperId} Joined !!`);
+            logFunction(`New helper #${helperId} joined.`);
 
             const run = doContinueOnHelperJoin(helperList.length);
             if (run) {
-              logFunction('Building + Running on hive');
-
               acceptingConnections = false;
               const out = await runKernel(
                 gpu,
@@ -90,7 +88,7 @@ export async function hiveRun(options: hiveRunOptions) {
             }
 
             onDisconnect(ws, () => {
-              logFunction(`Helper #${helperId} Disconnected :(`);
+              logFunction(`Helper #${helperId} disconnected.`);
               helperList.splice(helperId, helperId + 1);
             })
           }
