@@ -42,7 +42,7 @@ export async function hiveRun(options: hiveRunOptions) {
 
       const { gpu, func, kernelOptions, onWaitingForHelpers, doContinueOnHelperJoin, logFunction, inputs: input } = options;
 
-      const output = standardizeOutput(kernelOptions.output);
+      const output = standardizeOutput(<[number, number?, number?]>kernelOptions.output);
       kernelOptions.output = output.finalOutput;
 
       if (output.dimensions > 2) {
