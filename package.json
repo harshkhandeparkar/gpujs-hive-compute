@@ -8,7 +8,7 @@
     "build": "tsc",
     "dev": "tsc -w",
     "test": "TEST=true ts-node -r ./test/*.ts ./test/**/*.ts | tap-spec",
-    "npm-publish": "yarn test && yarn publish"
+    "npm-publish": "yarn test && yarn build && yarn publish"
   },
   "dependencies": {
     "ip": "^1.1.5",
