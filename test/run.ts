@@ -5,6 +5,15 @@ import { GPU, IKernelSettings, KernelFunction } from 'gpu.js';
 
 const gpu = new GPU();
 
+const objArrayMapper = (val) => {
+  if (typeof val === 'object') return Object.values(val).map(objArrayMapper)
+  else return val;
+}
+
+const convertOutputObjToArray = (output: any[]) => {
+  return Object.values(output).map(objArrayMapper)
+}
+
 const testCases: {
   [testCaseName: string]: {
     kernel: KernelFunction,
@@ -46,7 +55,7 @@ test('Outputs should be same on the hive and local', async t => {
     const testCase = testCases[testCaseName];
     const localKernel = gpu.createKernel(testCase.kernel, testCase.options);
 
-    const localOut = Object.values(!(testCase.input.length > 0 ? localKernel(...testCase.input) : localKernel()))
+    const localOut: any = <any>((testCase.input.length > 0) ? localKernel(...testCase.input) : localKernel());
 
     const hiveOut = await hiveRun({
       gpu,
@@ -64,7 +73,7 @@ test('Outputs should be same on the hive and local', async t => {
       inputs: testCase.input
     })
 
-    t.deepEqual(hiveOut, localOut, testCaseName);
+    t.deepEqual(hiveOut, convertOutputObjToArray(localOut), testCaseName);
   }
 
   t.end();
