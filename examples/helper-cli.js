@@ -4,5 +4,5 @@ const { hiveHelp } = require('../dist/index');
 
 hiveHelp({
   gpu: new GPU(),
-  url: question('URL?: ')
-})
+  url: question('Enter URL: ')
+}).then(() => console.log('Done.'))

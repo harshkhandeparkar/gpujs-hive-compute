@@ -27,7 +27,7 @@ function matMultKernel(a, b) {
 }
 
 const gpu = new GPU();
-const matrixDim = questionInt('Matrix Size(nxn)?');
+const matrixDim = questionInt('Enter Matrix Size(number): ');
 const matrixSize = [matrixDim, matrixDim];
 const matrices = generateRandomMatrices(...matrixSize);
 const kernelOptions = {
@@ -54,8 +54,5 @@ hiveRun({
     else return false;
   },
   logFunction: () => {}, // Do not log anything
-  cb: output => {
-    console.log('Hive:', (process.hrtime(t)[0] * (10 ** 9) + process.hrtime(t)[1]) / (10**6), 'milliseconds');
-  },
   inputs: matrices
-})
+}).then(() => console.log('Hive:', (process.hrtime(t)[0] * (10 ** 9) + process.hrtime(t)[1]) / (10**6), 'milliseconds'))

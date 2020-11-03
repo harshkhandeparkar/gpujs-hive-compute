@@ -12,8 +12,5 @@ hiveRun({
   },
   onWaitingForHelpers: url => console.log(url),
   doContinueOnHelperJoin: numHelpers => question(`${numHelpers} helpers joined, run the kernel now (y/n)?: `).toLowerCase() == `y`,
-  logFunction: console.log, // log function
-  cb: output => {
-    console.log('Final Output', output);
-  }
-})
+  logFunction: console.log // log function
+}).then(() => console.log('done'))
