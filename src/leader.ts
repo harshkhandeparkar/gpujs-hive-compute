@@ -5,13 +5,15 @@ import { address } from 'ip';
 import runKernel from './util/runKernel';
 import standardizeOutput from './util/standardizeOutput';
 import { onConnect, onDisconnect, tell } from './util/comm';
-import { TELL_ACTIONS, wsPort } from './util/constants';
+import { TELL_ACTIONS } from './util/constants';
 
 export type hiveRunOptions = {
   /** Instance of gpu.js GPU class */
   gpu: GPU,
   /** Kernel Function */
   func: Function,
+  /** Port for the websocket server, default: 8782 */
+  wsPort: number,
   /** GPU.js kernel options/settings */
   kernelOptions: IGPUKernelSettings,
   /** A callback that is fired once the leader starts and is waiting for helpers to join */
@@ -25,7 +27,8 @@ export type hiveRunOptions = {
 }
 
 export const hiveRunDefaults = {
-  logFunction: console.log
+  logFunction: console.log,
+  wsPort: 8782
 }
 
 export async function hiveRun(options: hiveRunOptions) {
@@ -38,6 +41,8 @@ export async function hiveRun(options: hiveRunOptions) {
         ...hiveRunDefaults,
         ...options
       }
+
+      const { wsPort } = options;
 
       const { gpu, func, kernelOptions, onWaitingForHelpers, doContinueOnHelperJoin, logFunction, inputs: input } = options;
 

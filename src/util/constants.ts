@@ -11,5 +11,3 @@ export enum TELL_ACTIONS {
 }
 
 export enum ASK_ACTIONS { BUILD_KERNEL, RUN_KERNEL };
-
-export const wsPort = 8782;
