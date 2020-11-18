@@ -9,4 +9,7 @@ export enum TELL_ACTIONS {
   KERNEL_RUN_DONE = 'kernel_run_done',
   CONN_ACCEPTED = 'conn_accepted'
 }
-export enum ASK_ACTIONS { BUILD_KERNEL, RUN_KERNEL }
+
+export enum ASK_ACTIONS { BUILD_KERNEL, RUN_KERNEL };
+
+export const wsPort = 8782;

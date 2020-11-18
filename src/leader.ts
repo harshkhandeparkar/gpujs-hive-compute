@@ -5,8 +5,7 @@ import { address } from 'ip';
 import runKernel from './util/runKernel';
 import standardizeOutput from './util/standardizeOutput';
 import { onConnect, onDisconnect, tell } from './util/comm';
-import { wsPort } from './config.json';
-import { TELL_ACTIONS } from './util/constants';
+import { TELL_ACTIONS, wsPort } from './util/constants';
 
 export type hiveRunOptions = {
   /** Instance of gpu.js GPU class */
