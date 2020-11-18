@@ -81,11 +81,12 @@ The library exports the following functions:
 Where options is an object with the following properties:
 1. `gpu` (GPU): Instance of a GPU.js [`GPU`](https://github.com/gpujs/gpu.js#gpu-settings) object.
 2. `func` (Function): The GPU.js [kernel](https://github.com/gpujs/gpu.js#creating-and-running-functions) function.
-3. `kernelOptions` (Object): GPU.js [kernel settings/options](https://github.com/gpujs/gpu.js#gpucreatekernel-settings).
-4. `onWaitingForHelpers(url) => void` (Function): A callback that is fired when a the hive is accepting helpers, the only parameter is the join url.
-5. `doContinueOnHelperJoin(numHelpers) => boolean` (Function): This is a callback function that is fired whenever a new helper joins. The parameter `numHelpers` is the number of helpers currently active. Return `true` to run the kernel or `false` to wait for more helpers to join. No new helper can join while the kernel is running.
-6. `logFunction(...args) => void` (Function): A custom log function if you don't want console logs.  (`console.log` by default)
-7. `inputs` (Array): This is an array of [kernel inputs](https://github.com/gpujs/gpu.js#accepting-input) in the form `[arg1, arg2, arg3]`.
+3. `port` (number): The port for the websocket server. (`8782` by default)
+4. `kernelOptions` (Object): GPU.js [kernel settings/options](https://github.com/gpujs/gpu.js#gpucreatekernel-settings).
+5. `onWaitingForHelpers(url) => void` (Function): A callback that is fired when a the hive is accepting helpers, the only parameter is the join url.
+6. `doContinueOnHelperJoin(numHelpers) => boolean` (Function): This is a callback function that is fired whenever a new helper joins. The parameter `numHelpers` is the number of helpers currently active. Return `true` to run the kernel or `false` to wait for more helpers to join. No new helper can join while the kernel is running.
+7. `logFunction(...args) => void` (Function): A custom log function if you don't want console logs.  (`console.log` by default)
+8. `inputs` (Array): This is an array of [kernel inputs](https://github.com/gpujs/gpu.js#accepting-input) in the form `[arg1, arg2, arg3]`.
 
 Returns a promise with the [output](https://github.com/gpujs/gpu.js#creating-and-running-functions) or an error.
 
