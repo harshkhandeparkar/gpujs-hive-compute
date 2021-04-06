@@ -1,50 +1,35 @@
 import WS from 'ws';
-import { GPU, IGPUKernelSettings, KernelOutput } from 'gpu.js';
+import { KernelOutput } from 'gpu.js';
 import { address } from 'ip';
 
-import runKernel from './util/runKernel';
-import standardizeOutput from './util/standardizeOutput';
-import { onConnect, onDisconnect, tell } from './util/comm';
-import { TELL_ACTIONS } from './util/constants';
+import runKernel from '../util/runKernel';
+import standardizeOutput from '../util/standardizeOutput';
+import { onConnect, onDisconnect, tell } from '../util/comm';
+import { TELL_ACTIONS } from '../util/constants';
+import { IHiveRunOptions, IHiveRunSettings } from './types/leader-types';
+import { hiveRunDefaults } from './constants/hive-run-defaults';
 
-export type hiveRunOptions = {
-  /** Instance of gpu.js GPU class */
-  gpu: GPU,
-  /** Kernel Function */
-  func: Function,
-  /** Port for the websocket server, default: 8782 */
-  wsPort: number,
-  /** GPU.js kernel options/settings */
-  kernelOptions: IGPUKernelSettings,
-  /** A callback that is fired once the leader starts and is waiting for helpers to join */
-  onWaitingForHelpers: (url: string) => void,
-  /** A callback that is fired each time a new helper joins, return true to start running the kernel and false otherwise */
-  doContinueOnHelperJoin: (numHelpers: number) => boolean,
-  /** A log function for internal logs, default console.log */
-  logFunction: (...logs: any) => void,
-  /** Inputs for the kernel, an array of arguments. */
-  inputs: any[]
-}
-
-export const hiveRunDefaults = {
-  logFunction: console.log,
-  wsPort: 8782
-}
-
-export async function hiveRun(options: hiveRunOptions) {
+export async function hiveRun(options: IHiveRunOptions) {
   return new Promise(
     (
       resolve: (output: KernelOutput) => void,
       reject: (e: Error) => void
     ) => {
-      options = {
+      const settings: IHiveRunSettings = {
         ...hiveRunDefaults,
         ...options
       }
 
-      const { wsPort } = options;
-
-      const { gpu, func, kernelOptions, onWaitingForHelpers, doContinueOnHelperJoin, logFunction, inputs: input } = options;
+      const {
+        gpu,
+        func,
+        kernelOptions,
+        onWaitingForHelpers,
+        doContinueOnHelperJoin,
+        logFunction,
+        inputs,
+        wsPort
+      } = settings;
 
       const output = standardizeOutput(<[number, number?, number?]>kernelOptions.output);
       kernelOptions.output = output.finalOutput;
@@ -82,7 +67,7 @@ export async function hiveRun(options: hiveRunOptions) {
                 kernelOptions,
                 output.dimensions,
                 inputsLength,
-                input,
+                inputs,
                 helperList,
                 logFunction
               )
