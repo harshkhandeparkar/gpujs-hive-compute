@@ -1,8 +1,9 @@
 import { GPU, IKernelRunShortcut, KernelOutput } from 'gpu.js';
+import WS from 'ws';
 
-import { COMM_TYPE, ASK_ACTIONS, TELL_ACTIONS } from './constants';
-import { ASK_DATA } from './types';
-import { onAsk, tell, onTell } from './comm';
+import { COMM_TYPE, ASK_ACTIONS, TELL_ACTIONS } from '../constants/comm-constants';
+import { ASK_DATA } from '../types/types';
+import { onAsk, tell, onTell } from '../util/comm';
 
 /**
  *
@@ -10,8 +11,8 @@ import { onAsk, tell, onTell } from './comm';
  * @param url WebSocket URL e.g: ws://localhost:4532
  * @param logFunction A custom log function
  */
-export async function runHelper(WS: any, gpu: GPU, url: string, logFunction: Function = console.log) {
-  return new Promise((resolve: () => void, reject: (e: Error) => void) => {
+export async function runHelper(gpu: GPU, url: string, logFunction: Function = console.log) {
+  return new Promise((resolve: (value?: unknown) => void, reject: (e: Error) => void) => {
     const ws = new WS(url);
     let k: IKernelRunShortcut; // build kernel will be stored here
 

@@ -1,4 +1,4 @@
-import { COMM_TYPE, ASK_ACTIONS, TELL_ACTIONS } from './constants';
+import { COMM_TYPE, ASK_ACTIONS, TELL_ACTIONS } from '../constants/comm-constants';
 
 export type ASK_DATA = {
   action: ASK_ACTIONS,

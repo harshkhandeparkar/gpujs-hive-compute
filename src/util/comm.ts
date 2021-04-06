@@ -1,6 +1,6 @@
 import WS from 'ws';
-import { ASK_DATA, TELL_DATA, MSG } from './types';
-import { COMM_TYPE, ASK_ACTIONS, TELL_ACTIONS } from './constants';
+import { ASK_DATA, TELL_DATA, MSG } from '../types/types';
+import { COMM_TYPE, ASK_ACTIONS, TELL_ACTIONS } from '../constants/comm-constants';
 
 export function ask(ws: WS, data: ASK_DATA) {
   ws.send(JSON.stringify({
@@ -43,14 +43,14 @@ export function onTell(ws: WS, action: TELL_ACTIONS, handler: (data: TELL_DATA) 
       handler(msg.data);
     }
   })
-  
+
   return ws;
 }
 
 export function onConnect(ws: WS, handler: (ws: WS) => void) {
   ws.on('message', msgData => {
     const msg: MSG = JSON.parse(msgData as string);
-    
+
     if (msg.type == COMM_TYPE.REQUEST_CONN) {
       handler(ws);
     }

@@ -5,7 +5,7 @@ import { address } from 'ip';
 import runKernel from '../util/runKernel';
 import standardizeOutput from '../util/standardizeOutput';
 import { onConnect, onDisconnect, tell } from '../util/comm';
-import { TELL_ACTIONS } from '../util/constants';
+import { TELL_ACTIONS } from '../constants/comm-constants';
 import { HiveRunOptions, HiveRunSettings } from './types/leader-types';
 import { hiveRunDefaults } from './constants/hive-run-defaults';
 

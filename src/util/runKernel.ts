@@ -1,8 +1,8 @@
 import { GPU, KernelFunction, KernelOutput } from 'gpu.js';
 import WS from 'ws';
 
-import { TELL_DATA } from './types';
-import { ASK_ACTIONS, TELL_ACTIONS } from './constants';
+import { TELL_DATA } from '../types/types';
+import { ASK_ACTIONS, TELL_ACTIONS } from '../constants/comm-constants';
 import { ask, onTell, } from './comm';
 import offsetKernel from './offsetKernel';
 import generateOptions from './generateOptions/generateOptions';

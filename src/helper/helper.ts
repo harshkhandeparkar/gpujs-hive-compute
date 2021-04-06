@@ -1,6 +1,4 @@
-import WS from 'ws';
-
-import { runHelper } from '../util/runHelper';
+import { runHelper } from './run-helper';
 import { HiveHelpOptions, HiveHelpSettings } from './types/hive-help';
 import { hiveHelpDefaults } from './constants/hive-help-defaults';
 
@@ -13,5 +11,5 @@ export async function hiveHelp(options: HiveHelpOptions) {
     ...hiveHelpDefaults,
     ...options
   }
-  return await runHelper(WS, settings.gpu, settings.url, settings.logFunction);
+  return await runHelper(settings.gpu, settings.url, settings.logFunction);
 }
