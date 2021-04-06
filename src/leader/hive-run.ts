@@ -6,16 +6,16 @@ import runKernel from '../util/runKernel';
 import standardizeOutput from '../util/standardizeOutput';
 import { onConnect, onDisconnect, tell } from '../util/comm';
 import { TELL_ACTIONS } from '../util/constants';
-import { IHiveRunOptions, IHiveRunSettings } from './types/leader-types';
+import { HiveRunOptions, HiveRunSettings } from './types/leader-types';
 import { hiveRunDefaults } from './constants/hive-run-defaults';
 
-export async function hiveRun(options: IHiveRunOptions) {
+export async function hiveRun(options: HiveRunOptions) {
   return new Promise(
     (
       resolve: (output: KernelOutput) => void,
       reject: (e: Error) => void
     ) => {
-      const settings: IHiveRunSettings = {
+      const settings: HiveRunSettings = {
         ...hiveRunDefaults,
         ...options
       }

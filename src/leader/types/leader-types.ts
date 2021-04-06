@@ -22,5 +22,5 @@ export interface IHiveRunOptionals {
   inputs: any[]
 }
 
-export type IHiveRunSettings = IHiveRunNonOptionals & IHiveRunOptionals;
-export type IHiveRunOptions = IHiveRunNonOptionals & (IHiveRunOptionals | {});
+export type HiveRunSettings = IHiveRunNonOptionals & IHiveRunOptionals;
+export type HiveRunOptions = IHiveRunNonOptionals & (IHiveRunOptionals | {});
