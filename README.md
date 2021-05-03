@@ -107,5 +107,3 @@ Returns a promise which either rejects with an error or resolves when the whole 
 
 
 ****
-#### Thank You!
-> Open Source by Harsh Khandeparkar
